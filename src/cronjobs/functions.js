@@ -24,13 +24,9 @@ const sendEmails = async (eventID, odds) => {
   }
 }
 
-// TODO: refactor
-const fetchOdds = async () => {
+const saveOdds = async (event) => {
   try {
-    let events = await Event.fetchAll();
-    events = events.toJSON();
-    for (let event of events) {
-      const odds = await getOdds(event.url);
+    const odds = await getOdds(event.url);
       let timestamp = await Timestamp.forge({
         event_id: event.id,
         created_at: moment().add(2, 'hours').format(config.datetimeFormat),
@@ -47,6 +43,17 @@ const fetchOdds = async () => {
           .save();
       }
       await sendEmails(event.id, odds);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const fetchOdds = async () => {
+  try {
+    let events = await Event.fetchAll();
+    events = events.toJSON();
+    for (let event of events) {
+      await saveOdds(event);
     }
   } catch (err) {
     console.log(err);
