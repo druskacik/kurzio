@@ -23,13 +23,12 @@ const fetchOdds = async () => {
       timestamp = timestamp.toJSON();
       const timestampID = timestamp.id;
       for (let odd of odds) {
-        const savedOdd = await Odd.forge({
+        await Odd.forge({
           fetch_timestamp_id: timestampID,
           name: odd.name,
           value: odd.odd,
         })
           .save();
-        console.log(savedOdd.toJSON());
       }
     }
   } catch (err) {

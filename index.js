@@ -6,6 +6,8 @@ const knex = require('./knex_connection');
 
 const port = process.env.PORT || 1000;
 
+const Event = require('./src/models/Event');
+
 // starts all cronjobs
 // require('./src/cronjobs');
 
@@ -47,6 +49,39 @@ app.get('/odds', async (req, res) => {
     const odds = await knex('odd').select();
     res.status(200)
       .json(odds);
+  } catch (err) {
+    console.log(err);
+    res.status(err.status || 500)
+      .json(err);
+  }
+})
+
+app.get('/fico-vs-pelle', async (req, res) => {
+  try {
+    let event = await Event.where({
+      id: 1,
+    })
+      .fetch({
+        withRelated: ['timestamps', 'odds']
+      });
+    event = event.toJSON();
+    const odds = [];
+    for (let timestamp of event.timestamps) {
+      const odd = {};
+      const timestampOdds = event.odds.filter(o => o['fetch_timestamp_id'] === timestamp.id);
+      odd['created_at'] = timestamp['created_at'];
+      for (let timestampOdd of timestampOdds) {
+        odd[timestampOdd.name] = timestampOdd.value;
+      }
+      odds.push(odd);
+    }
+    res.status(200)
+      .json({
+        ...event,
+        odds,
+        timestamps: undefined,
+        id: undefined,
+      });
   } catch (err) {
     console.log(err);
     res.status(err.status || 500)
