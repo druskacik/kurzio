@@ -8,6 +8,22 @@ const Event = require('../models/Event');
 const Timestamp = require('../models/Timestamp');
 const Odd = require('../models/Odd');
 
+const sendNotificationEmail = require('../services/mailer/emails/notification');
+
+const sendEmails = async (eventID, odds) => {
+  try {
+    if (eventID === 1) {
+      for (let odd of odds) {
+        if (odd.name === 'Nie' && odd.odd > 2.5) {
+          await sendNotificationEmail(odd.odd);
+        }
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // TODO: refactor
 const fetchOdds = async () => {
   try {
@@ -30,6 +46,7 @@ const fetchOdds = async () => {
         })
           .save();
       }
+      await sendEmails(event.id, odds);
     }
   } catch (err) {
     console.log(err);
