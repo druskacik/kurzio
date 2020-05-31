@@ -75,6 +75,7 @@ app.get('/fico-vs-pelle', async (req, res) => {
       }
       odds.push(odd);
     }
+    odds.sort((a, b) => a['created_at'] - b['created_at']);
     res.status(200)
       .json({
         ...event,
