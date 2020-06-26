@@ -1,4 +1,4 @@
-const fetchOdds = require('../cronjobs/functions');
+const fetchOdds = require('../cronjobs/functions/fetch-odds');
 
 const runJobs = async () => {
   try {

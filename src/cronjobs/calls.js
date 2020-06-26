@@ -16,8 +16,9 @@ const getSessionID = async () => {
   }
 }
 
-const getHeaders = async (headers) => {
+const getHeaders = async () => {
   try {
+    let headers = HEADERS
     const sessionID = await getSessionID();
     headers['Cookie'] = headers['Cookie'].replace('@PLACEHOLDER', sessionID);
     return headers;
@@ -26,17 +27,4 @@ const getHeaders = async (headers) => {
   }
 }
 
-const getOdds = async (url) => {
-  try {
-    const headers = await getHeaders(HEADERS);
-    const response = await axios.get(url, {
-      headers,
-    });
-    const options = response.data.eventTables[0].boxes[0].cells;
-    return options;
-  } catch (err) {
-    throw err;
-  }
-}
-
-module.exports = getOdds;
+module.exports = getHeaders;

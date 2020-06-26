@@ -1,10 +1,17 @@
 const CronJob = require('cron').CronJob;
 
-const saveOdds = require('./functions');
+const functions = require('./functions');
 
 const job = new CronJob({
-  cronTime: '0 * * * *',
-  onTick: saveOdds,
+  cronTime: '* * * * *',
+  onTick: async () => {
+    try {
+      await functions.fetchOdds();
+      console.log('Cron run successfully !');
+    } catch (err) {
+      console.log(err);
+    }
+  },
 })
 
 job.start();

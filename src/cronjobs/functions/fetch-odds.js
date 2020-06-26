@@ -1,14 +1,17 @@
+const axios = require('axios');
 const moment = require('moment');
 
-const config = require('../config');
+const config = require('../../config');
 
-const getOdds = require('./calls');
+const getHeaders = require('../calls');
 
-const Event = require('../models/Event');
-const Timestamp = require('../models/Timestamp');
-const Odd = require('../models/Odd');
+const Event = require('../../models/Event');
+const Timestamp = require('../../models/Timestamp');
+const Odd = require('../../models/Odd');
 
-const sendNotificationEmail = require('../services/mailer/emails/notification');
+const sendNotificationEmail = require('../../services/mailer/emails/notification');
+
+// TODO: refactor !!!
 
 const sendEmails = async (eventID, odds) => {
   try {
@@ -45,6 +48,18 @@ const saveOdds = async (event) => {
       await sendEmails(event.id, odds);
   } catch (err) {
     console.log(err);
+  }
+}
+const getOdds = async (url) => {
+  try {
+    const headers = await getHeaders();
+    const response = await axios.get(url, {
+      headers,
+    });
+    const options = response.data.eventTables[0].boxes[0].cells;
+    return options;
+  } catch (err) {
+    throw err;
   }
 }
 
