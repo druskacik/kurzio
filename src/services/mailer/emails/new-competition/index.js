@@ -4,7 +4,7 @@ const sendMail = require('../../index');
 
 const readFileAsync = require('../../../../utils/read-file-async');
 
-const sendNotificationEmail = async (name) => {
+const sendNotificationEmail = async (email, name) => {
   try {
     console.log('Sending email notification about new competition ...');
 
@@ -14,7 +14,7 @@ const sendNotificationEmail = async (name) => {
     });
 
     const options = {
-      to: 'robert.druska@gmail.com',
+      to: email,
       subject: 'Nová ponuka tenisových kurzov !',
       text,
     }
