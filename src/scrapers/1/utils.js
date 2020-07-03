@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // const headers = require('./headers.json');
-const HEADERS = require('../data/test-headers.json');
+const HEADERS = require('../../data/test-headers.json');
 
 const getSessionID = async () => {
   try {

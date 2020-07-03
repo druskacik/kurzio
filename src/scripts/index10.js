@@ -1,4 +1,4 @@
-const fetchNewCompetitions = require('../cronjobs/functions/fetch-new-competitions');
+const fetchNewCompetitions = require('../scrapers/1/fetch-new-competitions');
 
 const runJob = async () => {
   try {

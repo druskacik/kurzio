@@ -3,13 +3,13 @@ const moment = require('moment');
 
 const config = require('../../config');
 
-const getHeaders = require('../calls');
+const getHeaders = require('../../scrapers/1/utils');
 
 const Event = require('../../models/Event');
 const Timestamp = require('../../models/Timestamp');
 const Odd = require('../../models/Odd');
 
-const sendNotificationEmail = require('../../services/mailer/emails/notification');
+const sendNotificationEmail = require('../../services/mailer/emails/odd-notification');
 
 // TODO: refactor !!!
 
