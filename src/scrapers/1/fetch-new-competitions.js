@@ -2,7 +2,7 @@ const axios = require('axios');
 
 const knex = require('../../../knex_connection');
 const getHeaders = require('./utils');
-const emails = require('../../cronjobs/functions/emails');
+const newCompetitionNotification = require('../../notifications/new-competition');
 const getNewMatches = require('./get-new-matches');
 
 const URL = 'https://m.tipsport.sk/rest/offer/v1/offer?limit=75';
@@ -38,7 +38,7 @@ const fetchNewCompetitions = async () => {
         });
         competitionID = response[0];
         console.log(`Competition ${competition.name} inserted to DB !`);  
-        await emails.newCompetitionNotification(competition.name);
+        await newCompetitionNotification(competition.name);
       }
       // get new matches and notify about them
       await getNewMatches({

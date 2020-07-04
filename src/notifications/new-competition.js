@@ -1,6 +1,6 @@
-const knex = require('../../../knex_connection');
+const knex = require('../../knex_connection');
 
-const sendNotificationEmail = require('../../services/mailer/emails/new-competition');
+const sendNotificationEmail = require('../services/mailer/emails/new-competition');
 
 const newCompetitionNotification = async (name) => {
   const emailList = await knex('email').select();
@@ -10,6 +10,4 @@ const newCompetitionNotification = async (name) => {
   }
 }
 
-module.exports = {
-  newCompetitionNotification,
-};
+module.exports = newCompetitionNotification;
