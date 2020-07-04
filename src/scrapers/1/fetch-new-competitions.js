@@ -35,7 +35,7 @@ const fetchNewCompetitions = async () => {
             const response = await knex('competition').insert({
               provider_id: competition.id,
               name: competition.name,
-              type: 'tennis'
+              sport_id: sport.id,
             });
             competitionID = response[0];
             console.log(`Competition ${competition.name} inserted to DB !`);  

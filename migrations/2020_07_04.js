@@ -24,7 +24,19 @@ exports.up = function(knex) {
       })
       .catch((err) => {
         console.log(err);
+      }),
+    knex.schema.alterTable('competition', (table) => {
+        table.dropColumn('type');
+        table.integer('active').default(1);
+        table.integer('sport_id').unsigned();
+        table.foreign('sport_id').references('sport.id');
       })
+        .then(() => {
+          console.log('Columns active, sport_id were added to table competition. Column type was deleted.');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
   ])
 }
 
@@ -43,6 +55,17 @@ exports.down = function(knex) {
       })
       .catch((err) => {
         console.log(err);
+      }),
+      knex.schema.alterTable('competition', (table) => {
+        table.string('type');
+        table.dropColumn('active');
+        table.dropColumn('sport_id');
       })
+        .then(() => {
+          console.log('Columns active, sport_id were dropped from table competition. Column type was added.');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
   ])
 }
