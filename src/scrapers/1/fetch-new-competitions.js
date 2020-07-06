@@ -38,7 +38,7 @@ const fetchNewCompetitions = async () => {
             });
             competitionID = response[0];
             console.log(`Competition ${competition.name} inserted to DB !`);  
-            await newCompetitionNotification(competition.name);
+            await newCompetitionNotification(sport.emails, competition.name);
           }
           // get new matches and notify about them
           await getNewMatches({
