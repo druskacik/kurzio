@@ -36,6 +36,7 @@ const fetchNewCompetitions = async () => {
               name: competition.name,
               sport_id: sport.id,
             });
+            console.log(response);
             competitionID = response[0];
             console.log(competitionID);
             console.log(`Competition ${competition.name} inserted to DB !`);  
