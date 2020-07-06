@@ -6,6 +6,8 @@ const newCompetitionNotification = require('../../notifications/new-competition'
 const getNewMatches = require('./get-new-matches');
 const getSports = require('./helpers/get-sports');
 
+const Competition = require('../../models/Competition');
+
 const fetchNewCompetitions = async () => {
   try {
     const headers = await getHeaders();
@@ -31,14 +33,13 @@ const fetchNewCompetitions = async () => {
           if (savedComp.length > 0) {
             competitionID = savedComp[0].id;
           } else {
-            const response = await knex('competition').insert({
+            let response = await Competition.forge({
               provider_id: competition.id,
               name: competition.name,
               sport_id: sport.id,
-            });
-            console.log(response);
-            competitionID = response[0];
-            console.log(competitionID);
+            }).save();
+            response = response.toJSON();
+            competitionID = response.id;
             console.log(`Competition ${competition.name} inserted to DB !`);  
             await newCompetitionNotification(sport.emails, competition.name);
           }
