@@ -47,7 +47,7 @@ const saveOdds = async (event) => {
       }
       await sendEmails(event.id, odds);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 }
 const getOdds = async (url) => {
