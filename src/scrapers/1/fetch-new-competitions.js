@@ -12,7 +12,6 @@ const fetchNewCompetitions = async () => {
     const sports = await getSports();
     for (let sport of sports) {
       try {
-        console.log('FETCHING FOR SPORT:', sport);
         const url = sport.url;
         const response = await axios.post(
           url,
