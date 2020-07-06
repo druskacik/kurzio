@@ -11,6 +11,7 @@ const getNewMatches = async (competition) => {
           provider_id: match.id,
         }).select();
       if (response.length === 0) {
+        console.log('adding match for competition: ', competition);
         await knex('match').insert({
           provider_id: match.id,
           competition_id: competition.clientID,
