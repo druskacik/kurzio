@@ -15,7 +15,7 @@ const sendNotificationEmail = async (email, name) => {
 
     const options = {
       to: email,
-      subject: 'Nová ponuka tenisových kurzov !',
+      subject: `Nové kurzy - ${name}`,
       text,
     }
 
