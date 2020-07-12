@@ -7,7 +7,13 @@ const getFollowingEmails = async (competitionID) => {
         id: competitionID,
       })
       .fetch({
-        withRelated: 'emails',
+        withRelated: [
+          {
+            emails: function (query) {
+              query.where({ active: 1 }).select();
+            }
+          }
+        ],
       })
     competition = competition.toJSON();
     return competition.emails;
