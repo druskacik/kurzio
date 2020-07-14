@@ -5,7 +5,7 @@ const sendNewMatchesNotification = async (competition, matches) => {
   try {
     const emails = await getFollowingEmails(competition.clientID);
     for (let email of emails) {
-      await sendNotificationEmail(email.address, {
+      await sendNotificationEmail(email, {
         competition,
         matches,
       });

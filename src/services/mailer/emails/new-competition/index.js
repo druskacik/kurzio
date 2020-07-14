@@ -4,18 +4,22 @@ const sendMail = require('../../index');
 
 const readFileAsync = require('../../../../utils/read-file-async');
 
-const sendNotificationEmail = async (email, name) => {
+const sendNotificationEmail = async (email, { sportName, competition }) => {
   try {
     console.log('Sending email notification about new competition ...');
 
+    const unsubscribeUrl = `${process.env.BASE_URL}/api/subscription/unsubscribe?token=${email.token}`
+
     const templateText = await readFileAsync(__dirname + '/template-text.mustache');
     const text = Mustache.render(templateText, {
-      name,
+      sportName,
+      competition,
+      unsubscribeUrl,
     });
 
     const options = {
-      to: email,
-      subject: `Nové kurzy - ${name}`,
+      to: email.address,
+      subject: `Nové kurzy na šport ${sportName}`,
       text,
     }
 

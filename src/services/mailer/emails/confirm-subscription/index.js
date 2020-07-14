@@ -6,7 +6,7 @@ const readFileAsync = require('../../../../utils/read-file-async');
 
 const sendConfirmationEmail = async (email, confirmationUrl) => {
   try {
-    console.log('Sending subscription confirmation email ...');
+    console.log(`Sending subscription confirmation email to ${email}`);
 
     const templateText = await readFileAsync(__dirname + '/template-text.mustache');
     const text = Mustache.render(templateText, {

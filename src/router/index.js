@@ -11,7 +11,7 @@ app.use(cors());
 const knex = require('../../knex_connection');
 
 const sportsAndCompetitions = require('./routes/sport-and-competitions');
-const subscription = require('./routes/new-subscription');
+const subscription = require('./routes/subscription');
 
 // starts all cronjobs
 // require('./src/cronjobs');

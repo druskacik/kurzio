@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Sport = require('../../models/Sport');
-const getSlovakName = require('./helpers/get-slovak-name');
+const getSlovakName = require('../../utils/get-slovak-name');
 
 router.route('/')
   .get(async (req, res) => {
