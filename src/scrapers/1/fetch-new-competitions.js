@@ -24,7 +24,9 @@ const fetchNewCompetitions = async () => {
         );
     
         const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitions;
+        const activeCompetitions = [];
         for (let competition of competitions) {
+          activeCompetitions.push(competition.id);
           let competitionID = '';
           const savedComp = await knex('competition')
             .where({
@@ -32,6 +34,16 @@ const fetchNewCompetitions = async () => {
             }).select();
           if (savedComp.length > 0) {
             competitionID = savedComp[0].id;
+            if (savedComp[0].active === 0) {
+              await knex('competition')
+                .where({
+                  provider_id: competition.id,
+                })
+                .update({
+                  active: 1
+                })
+              await newCompetitionNotification(sport, competition.name);
+            }
           } else {
             let response = await Competition.forge({
               provider_id: competition.id,
@@ -49,6 +61,15 @@ const fetchNewCompetitions = async () => {
             clientID: competitionID,
           });
         }
+
+        // deactivate competitions that are not on the site
+        await knex('competition')
+          .where('sport_id', sport.id)
+          .whereNotIn('provider_id', activeCompetitions)
+          .update({
+            active: 0
+          })
+
       } catch (err) {
         console.log(err);
       }

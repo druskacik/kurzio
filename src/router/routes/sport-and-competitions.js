@@ -10,7 +10,13 @@ router.route('/')
     try {
       let sports = await Sport
         .fetchAll({
-          withRelated: ['competitions']
+          withRelated: [
+            {
+              competitions: function (query) {
+                query.where({ active: 1 }).select();
+              }
+            }
+          ]
         });
       sports = sports.toJSON();
       sports = sports.map(sport => ({
