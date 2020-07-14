@@ -20,6 +20,10 @@ const getNewMatches = async (competition) => {
       }
     }
     if (newMatches.length > 0) {
+      console.log(`Notifying about ${newMatches.length} new matches:`);
+      for (let matchName of newMatches) {
+        console.log(matchName);
+      }
       // notify about new matches
       await sendNewMatchesNotification(competition, newMatches);
     }

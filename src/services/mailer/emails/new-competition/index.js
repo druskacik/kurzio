@@ -6,7 +6,7 @@ const readFileAsync = require('../../../../utils/read-file-async');
 
 const sendNotificationEmail = async (email, { sportName, competition }) => {
   try {
-    console.log('Sending email notification about new competition ...');
+    console.log(`Sending email notification about new competition to ${email.address}`);
 
     const unsubscribeUrl = `${process.env.BASE_URL}/api/subscription/unsubscribe?token=${email.token}`
 

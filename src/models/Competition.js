@@ -10,4 +10,4 @@ const Competition = bookshelf.Model.extend({
   emails: function () { return this.belongsToMany(Email).through(EmailNotification); }
 });
 
-module.exports = Competition;
+module.exports = bookshelf.model('Competition', Competition);

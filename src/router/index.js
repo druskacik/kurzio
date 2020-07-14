@@ -25,7 +25,7 @@ const requireHTTPS = (req, res, next) => {
 app.use(requireHTTPS);
 
 // starts all cronjobs
-// require('./src/cronjobs');
+require('../cronjobs');
 
 app.use(bodyParser.json());
 
