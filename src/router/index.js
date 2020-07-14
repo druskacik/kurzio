@@ -13,6 +13,17 @@ const knex = require('../../knex_connection');
 const sportsAndCompetitions = require('./routes/sport-and-competitions');
 const subscription = require('./routes/subscription');
 
+// enforce HTTPS
+const requireHTTPS = (req, res, next) => {
+  // The 'x-forwarded-proto' check is for Heroku
+  if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
+    return res.redirect('https://' + req.get('host') + req.url);
+  }
+  next();
+}
+
+app.use(requireHTTPS);
+
 // starts all cronjobs
 // require('./src/cronjobs');
 
