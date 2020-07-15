@@ -71,7 +71,7 @@ const fetchNewCompetitions = async () => {
           })
 
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     }
   } catch (err) {
