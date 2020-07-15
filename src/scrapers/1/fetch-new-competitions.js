@@ -72,6 +72,12 @@ const fetchNewCompetitions = async () => {
 
       } catch (err) {
         console.log(err.message);
+        await knex('error')
+          .insert({
+            sport_id: sport.id,
+            status: err.status || 400,
+            message: err.message
+          })
       }
     }
   } catch (err) {
