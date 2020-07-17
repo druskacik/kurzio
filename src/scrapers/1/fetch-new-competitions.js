@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment');
 
 const knex = require('../../../knex_connection');
 const getHeaders = require('./utils');
@@ -7,6 +8,8 @@ const getNewMatches = require('./get-new-matches');
 const getSports = require('./helpers/get-sports');
 
 const Competition = require('../../models/Competition');
+
+const config = require('../../config');
 
 const fetchNewCompetitions = async () => {
   try {
@@ -40,9 +43,13 @@ const fetchNewCompetitions = async () => {
                   provider_id: competition.id,
                 })
                 .update({
-                  active: 1
+                  active: 1,
+                  updated_at: moment().format(config.datetimeFormat),
                 })
-              await newCompetitionNotification(sport, competition.name);
+              // notify only if the competition was inactive for more than 2 days
+              if (Date.now() - new Date(savedComp[0].updated_at) > (24*60*60*1000)*2) {
+                await newCompetitionNotification(sport, competition.name);
+              }
             }
           } else {
             let response = await Competition.forge({
