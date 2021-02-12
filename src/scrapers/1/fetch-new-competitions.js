@@ -26,7 +26,8 @@ const fetchNewCompetitions = async () => {
           }
         );
     
-        const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitions;
+        // const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitions;
+        const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitionAnnuals;
         const activeCompetitions = [];
         for (let competition of competitions) {
           activeCompetitions.push(competition.id);
