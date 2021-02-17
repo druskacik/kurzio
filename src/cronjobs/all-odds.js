@@ -3,7 +3,7 @@ const CronJob = require('cron').CronJob;
 const fetchNewCompetitions = require('../scrapers/1/fetch-new-competitions');
 
 const job = new CronJob({
-  cronTime: '2,32 * * * *',
+  cronTime: '2 * * * *',
   onTick: async () => {
     console.log('Running cronjob: fetch competitions, matches, and odds ...');
     try {
