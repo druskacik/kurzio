@@ -5,6 +5,7 @@ const getSlovakName = require('../utils/get-slovak-name');
 
 const newCompetitionNotification = async (sport, name) => {
   for (let email of sport.emails) {
+    // WTF ?
     if (email.address === 'druskajuraj@gmail.com' && name.substring(0, 3) === 'ITF') {
       console.log('Not sending email because Juro does not really bet on ITF competitions.');
     } else {

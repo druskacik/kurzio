@@ -11,7 +11,7 @@ const Competition = require('../../models/Competition');
 
 const config = require('../../config');
 
-const fetchNewCompetitions = async () => {
+const fetchNewCompetitions = async (alsoFetchOdds) => {
   try {
     const headers = await getHeaders();
     const sports = await getSports();
@@ -64,10 +64,15 @@ const fetchNewCompetitions = async () => {
             await newCompetitionNotification(sport, competition.name);
           }
           // get new matches and notify about them
-          await getNewMatches({
-            ...competition,
-            clientID: competitionID,
-          });
+          await getNewMatches(
+            {
+              ...competition,
+              clientID: competitionID,
+            },
+            headers,
+            sport.id,
+            alsoFetchOdds
+          );
         }
 
         // deactivate competitions that are not on the site

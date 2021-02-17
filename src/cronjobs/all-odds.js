@@ -3,11 +3,11 @@ const CronJob = require('cron').CronJob;
 const fetchNewCompetitions = require('../scrapers/1/fetch-new-competitions');
 
 const job = new CronJob({
-  cronTime: '*/5 * * * *',
+  cronTime: '2,32 * * * *',
   onTick: async () => {
-    console.log('Running cronjob: fetch new competitions and matches ...');
+    console.log('Running cronjob: fetch competitions, matches, and odds ...');
     try {
-      const alsoFetchOdds = false;
+      const alsoFetchOdds = true;
       await fetchNewCompetitions(alsoFetchOdds);
       console.log('Cron run successfully !');
     } catch (err) {
