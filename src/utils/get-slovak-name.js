@@ -20,7 +20,15 @@ const getSlovakName = (name) => {
     darts: 'Šípky',
     rugby: 'Rugby',
     snooker: 'Snooker',
-    volleyball: 'Volejbal'
+    volleyball: 'Volejbal',
+    snowboarding: 'Snowboarding',
+    'alpine skiing': 'Alpské lyžovanie',
+    bandy: 'Bandy',
+    floorball: 'Florbal',
+    futsal: 'Futsal',
+    handball: 'Hádzaná',
+    yachting: 'Jachting',
+    'ski jumping': 'Skoky na lyžiach'
   }
 
   return names[name];
