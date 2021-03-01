@@ -2,7 +2,7 @@
 
 Backend k programu, ktorý automatizovane ťahá ponuku zápasov a kurzov z webu tipsport.sk .
 
-Web k projektu: kurzio.sk
+Web k projektu: [kurzio.sk](https://kurzio.sk)
 
 Nechce sa mi na tom robiť, kľudne si z kódu vezmite kto chce čo chce.
 
