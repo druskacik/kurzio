@@ -5,6 +5,9 @@ application:
   port: 1000
 routers:
 - name: main
+  custom_domains:
+  - branch: master
+    domain: kurzio.sk
   routes:
   - application_name: kurzio-web
     paths:
