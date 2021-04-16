@@ -2,7 +2,7 @@ application:
   name: kurzio-web
   project: kurzio
   publicly_accessible: true
-  port: 3000
+  port: 1000
 routers:
 - name: main
   routes:
