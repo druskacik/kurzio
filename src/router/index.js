@@ -2,16 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const path = require('path');
+// const sportsAndCompetitions = require('./routes/sport-and-competitions');
+// const subscription = require('./routes/subscription');
+const telegramBotWebhook = require('./telegram-webhook');
 
 const app = express();
 
 app.use(cors());
-
-const knex = require('../../knex_connection');
-
-const sportsAndCompetitions = require('./routes/sport-and-competitions');
-const subscription = require('./routes/subscription');
 
 // enforce HTTPS
 const requireHTTPS = (req, res, next) => {
@@ -29,13 +26,14 @@ require('../cronjobs');
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../pages')));
+// app.use(express.static(path.join(__dirname, '../pages')));
 
 // serve vue build
 app.use(express.static('./dist'));
 
-app.use('/api/get-sports', sportsAndCompetitions);
-app.use('/api/subscription', subscription);
+// app.use('/api/get-sports', sportsAndCompetitions);
+// app.use('/api/subscription', subscription);
+app.use(`/api/telegram${process.env.TELEGRAM_BOT_TOKEN}`, telegramBotWebhook);
 
 const listen = (port) => {
   app.listen(port, () => {
