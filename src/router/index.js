@@ -24,9 +24,9 @@ app.get('/', (req, res) => {
 app.use(`/api/telegram${process.env.TELEGRAM_BOT_TOKEN}`, telegramBotWebhook);
 
 const listen = (port) => {
-  app.listen(port, () => {
-    console.log(`App listening on port ${port}!`);
-  })
+    app.listen(port, () => {
+        console.log(`App listening on port ${port}!`);
+    })
 }
 
 module.exports = listen;
