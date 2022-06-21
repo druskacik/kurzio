@@ -21,7 +21,7 @@ const sendNewMatchesNotification = async (competitionID, newMatches) => {
         const text = Mustache.render(templateText, {
             competitionName: competition.name,
             subsport: competition.subsport,
-            competitionUrl: `https://tipsport.sk${competition.url}`,
+            competitionUrl: `https://m.tipsport.sk${competition.url}`,
             newMatches,
         });
 
