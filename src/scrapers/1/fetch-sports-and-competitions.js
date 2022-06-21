@@ -4,6 +4,8 @@ const axios = require('axios');
 const Sport = require('../../models/Sport');
 const Competition = require('../../models/Competition');
 
+const telegramBot = require('../../services/telegram-bot');
+
 const getHeaders = require('./utils');
 
 const fetchNewSports = async () => {
@@ -43,17 +45,20 @@ const fetchNewSports = async () => {
                     sportID = sportDB.id;
                 }
 
+                // const activeCompetitions = [];
                 const sportCategories = sport.children;
                 for (let sportCategory of sportCategories) {
                     const competitions = sportCategory.children;
                     for (let competition of competitions) {
+                        // activeCompetitions.push(competition.id);
+
                         let competitionDB = await Competition.where({
                             name: competition.title,
                             provider_id: competition.id,
                         }).fetch({ require: false });
 
                         if (!competitionDB) {
-                            await new Competition({
+                            competitionDB = await new Competition({
                                 name: competition.title,
                                 name_abbr: competition.titleAbbr,
                                 provider_id: competition.id,
@@ -61,11 +66,23 @@ const fetchNewSports = async () => {
                                 sport_id: sportID,
                                 url: competition.url,
                             }).save();
+                            competitionDB = competitionDB.toJSON();
 
                             // TODO: notify about new competition
+                            await telegramBot.sendNewCompetitionNotification(sportID, competitionDB);
                         }
                     }
                 }
+
+                // deactivate competitions that are not on the site
+                // await knex('competition')
+                //     .where('sport_id', sportID)
+                //     .where('active', true)
+                //     .whereNotIn('provider_id', activeCompetitions)
+                //     .update({
+                //         active: false,
+                //         updated_at: knex.fn.now(),
+                //     });
             }
         }
 

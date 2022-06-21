@@ -1,7 +1,15 @@
-Notifikujem ťa, keď pribudnú zápasy v nasledovných súťažiach:
+{{ #followsSports }}Notifikujem ťa, keď pribudne súťaž v nasledovných športoch:
+
+{{ #sports }}
+<b>{{ name }}</b>
+{{ untrackCommand }}
+
+{{ /sports }}{{ /followsSports }}
+
+{{ #followsCompetitions }}Notifikujem ťa, keď pribudnú zápasy v nasledovných súťažiach:
 
 {{ #competitions }}
 <b>{{ name }} ({{ subsport }})</b>
 {{ untrackCommand }}
 
-{{ /competitions}}
+{{ /competitions}}{{ /followsCompetitions }}

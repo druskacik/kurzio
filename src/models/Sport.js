@@ -8,6 +8,11 @@ const Sport = bookshelf.Model.extend({
         const Competition = require('./Competition');
         return this.hasMany(Competition);
     },
+    users () {
+        const User = require('./User');
+        const UserSportNotification = require('./UserSportNotification');
+        return this.belongsToMany(User).through(UserSportNotification);
+    },
 });
 
 module.exports = bookshelf.model('Sport', Sport);

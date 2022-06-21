@@ -44,6 +44,10 @@ router.route('/')
                 case '/list':
                     await telegramBot.sendListMessage(chatID);
                     break;
+                
+                case '/sports':
+                    await telegramBot.sendSportsMessage(chatID);
+                    break;
 
                 case '/track':
                     const competitionToTrackIds = messageText.trim().split(/_+/).slice(1);
@@ -53,6 +57,16 @@ router.route('/')
                 case '/untrack':
                     const competitionToUntrackIds = messageText.trim().split(/_+/).slice(1);
                     await telegramBot.sendUntrackMessage(chatID, userID, competitionToUntrackIds);
+                    break;
+
+                case '/tracksport':
+                    const sportToTrackIds = messageText.trim().split(/_+/).slice(1);
+                    await telegramBot.sendTrackSportMessage(chatID, userID, sportToTrackIds);
+                    break;
+
+                case '/untracksport':
+                    const sportToUntrackIds = messageText.trim().split(/_+/).slice(1);
+                    await telegramBot.sendUntrackSportMessage(chatID, userID, sportToUntrackIds);
                     break;
 
                 case '/settings':

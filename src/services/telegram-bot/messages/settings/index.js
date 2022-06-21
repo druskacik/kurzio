@@ -27,10 +27,22 @@ const sendSettingsMessage = async (chatID) => {
                     ...competition,
                     untrackCommand,
                 }
-            })
+            });
+
+            user.sports = user.sports.map(sport => {
+                const untrackCommand = `/untracksport_${sport.id}`;
+                return {
+                    ...sport,
+                    untrackCommand,
+                }
+            });
 
             const templateText = await readFileAsync(__dirname + '/message.mustache');
-            const text = Mustache.render(templateText, user);
+            const text = Mustache.render(templateText, {
+                ...user,
+                followsSports: user.sports.length > 0,
+                followsCompetitions: user.competitions.length > 0,
+            });
             await sendTelegramMessage(chatID, text);
         }
     } catch (err) {

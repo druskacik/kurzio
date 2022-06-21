@@ -15,8 +15,6 @@ const sendListMessage = async (chatID) => {
             .fetchAll({ withRelated: ['competitions'] });
         sports = sports.toJSON();
 
-        console.log(sports);
-
         sports = sports.map(sport => {
             sport.competitions = sport.competitions.map(competition => {
                 const notificationCommand = `/track_${competition.id}`
