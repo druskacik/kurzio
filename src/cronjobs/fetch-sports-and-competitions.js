@@ -5,7 +5,7 @@ const fetchNewSports = require('../scrapers/1/fetch-sports-and-competitions');
 let jobIsRunning = false;
 
 const job = new CronJob({
-    cronTime: '2 * * * * *',
+    cronTime: '3/5 * * * * *',
     onTick: async () => {
         if (!jobIsRunning) {
             jobIsRunning = true;
