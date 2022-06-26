@@ -2,6 +2,10 @@ Nové zápasy v súťaži <b>{{ competitionName }} ({{ subsport }})</b>:
 
 {{ #newMatches }}
 <b>{{ name }}</b>
+{{ #odds }}
+{{ label }}: <i>{{ odd }}</i>
+{{ /odds }}
+
 {{ /newMatches }}
 
 {{ competitionUrl }}

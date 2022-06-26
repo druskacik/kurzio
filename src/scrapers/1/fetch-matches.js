@@ -2,6 +2,8 @@ const axios = require('axios');
 
 const getHeaders = require('./utils');
 
+const knex = require('../../../knex_connection');
+
 const Sport = require('../../models/Sport');
 const Competition = require('../../models/Competition');
 const Match = require('../../models/Match');
@@ -52,23 +54,39 @@ const fetchNewMatches = async () => {
 
                         for (let matchObject of competition.offerMatches) {
                             const match = matchObject.match;
-                            const matchDB = await Match.where({
+                            let matchDB = await Match.where({
                                 provider_id: match.id,
                                 name: match.name,
                             }).fetch({ require: false });
 
                             if (!matchDB) {
-                                await new Match({
+                                matchDB = await new Match({
                                     name: match.name,
                                     name_full: match.nameFull,
                                     provider_id: match.id,
                                     competition_id: competitionID,
                                     url: match.matchUrl,
                                 }).save();
+                                matchDB = matchDB.toJSON();
+                                const matchID = matchDB.id;
+
+                                // save odds
+                                let odds = matchObject?.oppRows?.[0]?.oppsTab || [];
+                                odds = odds.filter(odd => Boolean(odd));
+                                odds = odds.map(odd => ({
+                                    label: odd.label,
+                                    type: odd.type,
+                                    odd: odd.odd,
+                                    provider_id: odd.id,
+                                    match_id: matchID,
+                                }));
+
+                                // await knex('odd').insert(odds);
 
                                 newMatches.push({
                                     name: match.name,
                                     url: match.matchUrl,
+                                    odds,
                                 });
                             }
                         }

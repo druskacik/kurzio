@@ -23,6 +23,7 @@ const sendNewCompetitionNotification = async (sportID, competition) => {
             competitionName: competition.name,
             subsport: competition.subsport,
             competitionUrl: `https://m.tipsport.sk${competition.url}`,
+            notificationCommand: `/track_${competition.id}`,
         });
 
         sport.users.forEach(async user => {
