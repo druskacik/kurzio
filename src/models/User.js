@@ -14,6 +14,11 @@ const User = bookshelf.Model.extend({
         const UserCompetitionNotification = require('./UserCompetitionNotification');
         return this.belongsToMany(Competition).through(UserCompetitionNotification);
     },
+    matches () {
+        const Match = require('./Match');
+        const UserMatchNotification = require('./UserMatchNotification');
+        return this.belongsToMany(Match).through(UserMatchNotification);
+    },
 });
 
 module.exports = bookshelf.model('User', User);

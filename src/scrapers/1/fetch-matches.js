@@ -84,6 +84,7 @@ const fetchNewMatches = async () => {
                                 // await knex('odd').insert(odds);
 
                                 newMatches.push({
+                                    id: matchID,
                                     name: match.name,
                                     url: match.matchUrl,
                                     odds,

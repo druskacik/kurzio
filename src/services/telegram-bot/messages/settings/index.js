@@ -11,11 +11,13 @@ const sendSettingsMessage = async (chatID) => {
         let user = await User.where({
             telegram_chat_id: chatID,
         }).fetch({
-            withRelated: ['sports', 'competitions']
+            withRelated: ['sports', 'competitions', 'matches.competition'],
         });
         user = user.toJSON();
 
-        if (user.sports.length === 0 && user.competitions.length === 0) {
+        const followsNothing = user.sports.length === 0 && user.competitions.length === 0 && user.matches.length === 0;
+
+        if (followsNothing) {
             const templateText = await readFileAsync(__dirname + '/message-no-settings.mustache');
             const text = Mustache.render(templateText);
             await sendTelegramMessage(chatID, text);
@@ -26,7 +28,7 @@ const sendSettingsMessage = async (chatID) => {
                 return {
                     ...competition,
                     untrackCommand,
-                }
+                };
             });
 
             user.sports = user.sports.map(sport => {
@@ -34,14 +36,24 @@ const sendSettingsMessage = async (chatID) => {
                 return {
                     ...sport,
                     untrackCommand,
-                }
+                };
             });
+
+            user.matches = user.matches.map(match => {
+                const untrackCommand = `/untrackmatch_${match.id}`;
+                return {
+                    matchName: match.name,
+                    competitionName: match.competition.name,
+                    untrackCommand,
+                };
+            })
 
             const templateText = await readFileAsync(__dirname + '/message.mustache');
             const text = Mustache.render(templateText, {
                 ...user,
                 followsSports: user.sports.length > 0,
                 followsCompetitions: user.competitions.length > 0,
+                followsMatches: user.matches.length > 0,
             });
             await sendTelegramMessage(chatID, text);
         }

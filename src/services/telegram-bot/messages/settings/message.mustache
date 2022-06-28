@@ -13,3 +13,11 @@
 {{ untrackCommand }}
 
 {{ /competitions}}{{ /followsCompetitions }}
+
+{{ #followsMatches }}Notifikujem ťa, keď sa rozšíri kurzová ponuka v nasledovných zápasoch:
+
+{{ #matches }}
+<b>{{ matchName }} ({{ competitionName }})</b>
+{{ untrackCommand }}
+
+{{ /matches}}{{ /followsMatches }}

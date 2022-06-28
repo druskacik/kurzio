@@ -13,6 +13,10 @@ const Sport = bookshelf.Model.extend({
         const UserSportNotification = require('./UserSportNotification');
         return this.belongsToMany(User).through(UserSportNotification);
     },
+    oddTypes () {
+        const OddType = require('./OddType');
+        return this.hasMany(OddType);
+    },
 });
 
 module.exports = bookshelf.model('Sport', Sport);

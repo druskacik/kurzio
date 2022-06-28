@@ -22,7 +22,10 @@ const sendNewMatchesNotification = async (competitionID, newMatches) => {
             competitionName: competition.name,
             subsport: competition.subsport,
             competitionUrl: `https://m.tipsport.sk${competition.url}`,
-            newMatches,
+            newMatches: newMatches.map(match => ({
+                ...match,
+                notificationCommand: `/trackmatch_${match.id}`,
+            })),
         });
 
         competition.users.forEach(async user => {

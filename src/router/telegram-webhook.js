@@ -69,6 +69,16 @@ router.route('/')
                     await telegramBot.sendUntrackSportMessage(chatID, userID, sportToUntrackIds);
                     break;
 
+                case '/trackmatch':
+                    const matchToTrackIds = messageText.trim().split(/_+/).slice(1);
+                    await telegramBot.sendTrackMatchMessage(chatID, userID, matchToTrackIds);
+                    break;
+
+                case '/untrackmatch':
+                    const matchToUntrackIds = messageText.trim().split(/_+/).slice(1);
+                    await telegramBot.sendUntrackMatchMessage(chatID, userID, matchToUntrackIds);
+                    break;
+
                 case '/settings':
 
                     await telegramBot.sendSettingsMessage(chatID);
