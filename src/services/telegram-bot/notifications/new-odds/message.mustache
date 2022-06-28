@@ -1,7 +1,11 @@
 Nová kurzová ponuka v zápase <b>{{ matchName }} ({{ competitionName }})</b>:
 
 {{ #oddTypes }}
-{{ label }}
+<b>{{ label }}</b>
+{{ #odds }}
+{{ label }}: <i>{{ odd }}</i>
+{{ /odds }}
+
 {{ /oddTypes }}
 
 {{ matchUrl }}

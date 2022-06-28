@@ -51,22 +51,50 @@ const fetchOdds = async () => {
                     const tab = readTabByPath(tabs, oddType.path);
                     const competitions = tab.offerCompetitionAnnuals;
 
-                    const matchesWithOddType = [];
+                    // TODO: the code below seriously needs a refactor
+                    const matchesWithOddType = {};
+
+                    // these variables determine how to take odd label for notification
+                    const includeTabLabel = oddType.provider_id.includes('MOST_BALANCED');
+                    const getLabelFromHeader = competitions[0].oppHeaders.length === competitions[0].offerMatches[0].oppRows[0].oppsTab.length;
+                    const oppHeaders = competitions[0].oppHeaders;
     
+                    // get all matches from all competitions with given odd type
                     for (let competition of competitions) {
-                        const matchIDs = competition.offerMatches.map(matchObject => matchObject.match.id);
-                        matchesWithOddType.push(...matchIDs);
+                        competition.offerMatches.forEach(matchObject => {
+                            let matchOdds = matchObject.oppRows[0].oppsTab.map((oddObject, i) => {
+                                if (oddObject) {
+                                    return {
+                                        label: getLabelFromHeader ? (oppHeaders[i] + (includeTabLabel ? ` ${oddObject.label}` : '')) : oddObject.label,
+                                        odd: oddObject.odd,
+                                    };
+                                };
+                                return null;
+                            });
+                            matchOdds = matchOdds.filter(odd => Boolean(odd));
+                            matchesWithOddType[matchObject.match.id] = {
+                                odds: matchOdds,
+                            }
+                        })
                     }
 
+                    // get all saved matches with given odd type
                     let matchesWithOddTypeDB = await Match
-                        .where('provider_id', 'in', matchesWithOddType)
+                        .where('provider_id', 'in', Object.keys(matchesWithOddType))
                         .fetchAll({ withRelated: ['users', 'competition'] });
                     matchesWithOddTypeDB = matchesWithOddTypeDB.toJSON();
 
                     const matchesWithOddTypeSaved = oddType.matches.map(match => match.id);
+                    // add those matches that were not previously saved
                     const matchesToAdd = matchesWithOddTypeDB.filter(match => !matchesWithOddTypeSaved.includes(match.id));
 
                     for (let match of matchesToAdd) {
+
+                        const oddTypeWithOdds = {
+                            ...oddType,
+                            odds: matchesWithOddType[`${match.provider_id}`].odds,
+                        }
+
                         if (!Object.keys(newMatchOddTypes).includes(`${match.id}`)) {
                             newMatchOddTypes[match.id] = {
                                 matchName: match.name,
@@ -74,10 +102,10 @@ const fetchOdds = async () => {
                                 matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
                                 competitionUrl: `https://m.tipsport.sk${match.competition.url}`,
                                 users: match.users,
-                                newOddTypes: [oddType],
+                                newOddTypes: [oddTypeWithOdds],
                             }
                         } else {
-                            newMatchOddTypes[match.id].newOddTypes.push(oddType);
+                            newMatchOddTypes[match.id].newOddTypes.push(oddTypeWithOdds);
                         }
                     };
 
