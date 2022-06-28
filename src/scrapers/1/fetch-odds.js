@@ -71,7 +71,7 @@ const fetchOdds = async () => {
                             newMatchOddTypes[match.id] = {
                                 matchName: match.name,
                                 competitionName: match.competition.name,
-                                // TODO@ include match url
+                                matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
                                 competitionUrl: `https://m.tipsport.sk${match.competition.url}`,
                                 users: match.users,
                                 newOddTypes: [oddType],

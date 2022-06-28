@@ -10,8 +10,7 @@ const sendNewOddsNotification = async (match) => {
         const text = Mustache.render(templateText, {
             matchName: match.matchName,
             competitionName: match.competitionName,
-            // TODO: include match url
-            competitionUrl: match.competitionUrl,
+            matchUrl: match.matchUrl,
             oddTypes: match.newOddTypes,
         });
 

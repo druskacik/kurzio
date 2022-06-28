@@ -24,6 +24,7 @@ const sendNewMatchesNotification = async (competitionID, newMatches) => {
             competitionUrl: `https://m.tipsport.sk${competition.url}`,
             newMatches: newMatches.map(match => ({
                 ...match,
+                matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
                 notificationCommand: `/trackmatch_${match.id}`,
             })),
         });
