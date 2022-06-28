@@ -4,7 +4,6 @@ const sendTelegramMessage = require('../../send-message');
 const readFileAsync = require('../../../../utils/read-file-async');
 
 const Sport = require('../../../../models/Sport');
-// const Competition = require('../../../../models/Competition');
 
 const sendListMessage = async (chatID) => {
     try {
@@ -31,7 +30,33 @@ const sendListMessage = async (chatID) => {
             sports,
         });
 
-        await sendTelegramMessage(chatID, text);
+        if (text.length > 4095) {
+
+            const splitIndex = [0];
+            const textParts = [];
+
+            // max length is 4096
+            // 3800 should be a safe margin
+            // TODO: make this more exact
+            for (let i = 0; i < Math.floor(text.length/3800); i += 1) {
+                const start = (i+1) * 3800;
+                const index = text.indexOf('\n', start);
+                splitIndex.push(index);
+            }
+            splitIndex.push(text.length);
+
+            for (let i = 0; i < splitIndex.length - 1; i += 1) {
+                const textPart = text.substring(splitIndex[i], splitIndex[i + 1]);
+                textParts.push(textPart);
+            }
+
+            for (let textPart of textParts) {
+                await sendTelegramMessage(chatID, textPart);
+            }
+
+        } else {
+            await sendTelegramMessage(chatID, text);
+        }
     } catch (err) {
         console.log(err);
     }
