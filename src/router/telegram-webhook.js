@@ -32,6 +32,19 @@ router.route('/')
 
             await telegramTracker.saveTelegramMessage(chatID, messageText);
 
+            if (!messageText.startsWith('/') && message.reply_to_message) {
+                const replyToMessage = message.reply_to_message;
+                const replyToMessageText = replyToMessage.text || '';
+
+                // TODO: save all sent messages to DB and check types of replyToMessage from DB by its ID
+                if (replyToMessageText.startsWith('Zadaj query')) {
+                    await telegramBot.sendTrackQuerySuccessMessage(chatID, userID, messageText);
+                    res.status(200)
+                        .end('ok');
+                    return;
+                }
+            }
+
             messageText = messageText.replace(/ /g, '_')
 
             let command = messageText.split('_')[0];
@@ -77,6 +90,15 @@ router.route('/')
                 case '/untrackmatch':
                     const matchToUntrackIds = messageText.trim().split(/_+/).slice(1);
                     await telegramBot.sendUntrackMatchMessage(chatID, userID, matchToUntrackIds);
+                    break;
+
+                case '/trackquery':
+                    await telegramBot.sendTrackQueryMessage(chatID);
+                    break;
+
+                case '/untrackquery':
+                    const queriesToUntrackIds = messageText.trim().split(/_+/).slice(1);
+                    await telegramBot.sendUntrackQueryMessage(chatID, userID, queriesToUntrackIds);
                     break;
 
                 case '/settings':

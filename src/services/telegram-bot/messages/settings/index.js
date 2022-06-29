@@ -11,11 +11,22 @@ const sendSettingsMessage = async (chatID) => {
         let user = await User.where({
             telegram_chat_id: chatID,
         }).fetch({
-            withRelated: ['sports', 'competitions', 'matches.competition'],
+            withRelated: [
+                'sports',
+                'competitions',
+                'matches.competition',
+                {
+                    queries (q) {
+                        q.where({
+                            active: true,
+                        }).select();
+                    },
+                },
+            ],
         });
         user = user.toJSON();
 
-        const followsNothing = user.sports.length === 0 && user.competitions.length === 0 && user.matches.length === 0;
+        const followsNothing = user.sports.length === 0 && user.competitions.length === 0 && user.matches.length === 0 && user.queries.length === 0;
 
         if (followsNothing) {
             const templateText = await readFileAsync(__dirname + '/message-no-settings.mustache');
@@ -46,6 +57,14 @@ const sendSettingsMessage = async (chatID) => {
                     competitionName: match.competition.name,
                     untrackCommand,
                 };
+            });
+
+            user.queries = user.queries.map(query => {
+                const untrackCommand = `/untrackquery_${query.id}`;
+                return {
+                    query: query.query,
+                    untrackCommand,
+                }
             })
 
             const templateText = await readFileAsync(__dirname + '/message.mustache');
@@ -54,6 +73,7 @@ const sendSettingsMessage = async (chatID) => {
                 followsSports: user.sports.length > 0,
                 followsCompetitions: user.competitions.length > 0,
                 followsMatches: user.matches.length > 0,
+                followsQueries: user.queries.length > 0,
             });
             await sendTelegramMessage(chatID, text);
         }

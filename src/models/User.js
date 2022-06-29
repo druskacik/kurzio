@@ -19,6 +19,10 @@ const User = bookshelf.Model.extend({
         const UserMatchNotification = require('./UserMatchNotification');
         return this.belongsToMany(Match).through(UserMatchNotification);
     },
+    queries () {
+        const Query = require('./Query');
+        return this.hasMany(Query);
+    },
 });
 
 module.exports = bookshelf.model('User', User);

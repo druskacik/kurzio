@@ -9,6 +9,9 @@ const Competition = require('../../models/Competition');
 const Match = require('../../models/Match');
 
 const telegramBot = require('../../services/telegram-bot');
+const Query = require('../../models/Query');
+
+const normalizeString = require('../../utils/normalize-string');
 
 const fetchNewMatches = async () => {
     try {
@@ -86,6 +89,8 @@ const fetchNewMatches = async () => {
                                 newMatches.push({
                                     id: matchID,
                                     name: match.name,
+                                    nameFull: match.nameFull,
+                                    competitionName: competition.name,
                                     url: match.matchUrl,
                                     odds,
                                 });
@@ -94,6 +99,7 @@ const fetchNewMatches = async () => {
 
                         if (newMatches.length > 0) {
                             await telegramBot.sendNewMatchesNotification(competitionID, newMatches);
+                            await handleQueriesLookup(newMatches);
                         }
                     }
                 }
@@ -114,6 +120,32 @@ const fetchNewMatches = async () => {
                 //     status: err.status || 400,
                 //     message: err.message
                 // })
+            }
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const handleQueriesLookup = async (newMatches) => {
+    try {
+
+        let queries = await Query
+            .where({
+                active: true,
+            })
+            .fetchAll({
+                withRelated: ['user'],
+            });
+        queries = queries.toJSON();
+
+        for (let match of newMatches) {
+            let matchName = match.nameFull || '';
+            matchName = normalizeString(matchName);
+            for (let query of queries) {
+                if (matchName.includes(query.query)) {
+                    await telegramBot.sendNewMatchWithQueryNotification(match, query.user, query.query);
+                }
             }
         }
     } catch (err) {

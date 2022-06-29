@@ -21,3 +21,11 @@
 {{ untrackCommand }}
 
 {{ /matches}}{{ /followsMatches }}
+
+{{ #followsQueries }}Notifikujem ťa, keď pribudne zápas s niektorým z nasledovných query v názve:
+
+{{ #queries }}
+<b>{{ query }}</b>
+{{ untrackCommand }}
+
+{{ /queries}}{{ /followsQueries }}
