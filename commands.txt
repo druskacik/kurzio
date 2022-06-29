@@ -6,6 +6,8 @@ tracksport - zapni notifikácie pre nové súťaže v športe
 untracksport - vypni notifikácie pre nové súťaže v športe
 trackmatch - zapni notifikácie pre novú kurzovú ponuku v zápase
 untrackmatch - vypni notifikácie pre novú kurzovú ponuku v zápase
+trackquery - zapni notifikácie pre query
+untrackquery - vypni notifikácie pre query
 help - zobrazí zoznam príkazov
 settings - aktuálne nastavenia notifikácií
 support - kontakt podpory (vývojára bota)
