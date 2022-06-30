@@ -110,9 +110,9 @@ router.route('/')
                     await telegramBot.sendHelpMessage(chatID);
                     break;
 
-                case '/support':
-                    await telegramBot.sendSupportMessage(chatID);
-                    break;
+                // case '/support':
+                //     await telegramBot.sendSupportMessage(chatID);
+                //     break;
 
                 case '/status':
                     await telegramBot.sendStatusMessage(chatID);

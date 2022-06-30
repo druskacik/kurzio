@@ -10,4 +10,3 @@ trackquery - zapni notifikácie pre query
 untrackquery - vypni notifikácie pre query
 help - zobrazí zoznam príkazov
 settings - aktuálne nastavenia notifikácií
-support - kontakt podpory (vývojára bota)
