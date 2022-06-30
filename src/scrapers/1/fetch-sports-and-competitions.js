@@ -68,7 +68,6 @@ const fetchNewSports = async () => {
                             }).save();
                             competitionDB = competitionDB.toJSON();
 
-                            // TODO: notify about new competition
                             await telegramBot.sendNewCompetitionNotification(sportID, competitionDB);
                         }
                     }
