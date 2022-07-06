@@ -87,6 +87,7 @@ const fetchNewSports = async () => {
 
     } catch (err) {
         console.log(err);
+        await telegramBot.sendRequestNotSuccessfulNotification(err, 'fetchNewSports');
     }
 }
 

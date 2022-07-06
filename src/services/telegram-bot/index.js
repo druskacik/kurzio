@@ -20,6 +20,8 @@ const sendNewCompetitionNotification = require('./notifications/new-competition'
 const sendNewOddsNotification = require('./notifications/new-odds');
 const sendNewMatchWithQueryNotification = require('./notifications/new-match-with-query');
 
+const sendRequestNotSuccessfulNotification = require('./admin-notifications/request-not-successful');
+
 module.exports = {
     sendStartMessage,
     sendListMessage,
@@ -41,4 +43,5 @@ module.exports = {
     sendNewCompetitionNotification,
     sendNewOddsNotification,
     sendNewMatchWithQueryNotification,
+    sendRequestNotSuccessfulNotification,
 }

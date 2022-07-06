@@ -1,5 +1,7 @@
 const axios = require('axios');
 
+const telegramBot = require('../../services/telegram-bot');
+
 // const headers = require('./headers.json');
 const HEADERS = require('../../data/test-headers.json');
 
@@ -10,8 +12,9 @@ const getSessionID = async () => {
         let sessionID = headers['set-cookie'][0];
         sessionID = sessionID.split(';')[0];
         sessionID = sessionID.split('=')[1];
-        return sessionID
+        return sessionID;
     } catch (err) {
+        await telegramBot.sendRequestNotSuccessfulNotification(err, 'getSessionID');
         throw err;
     }
 }
