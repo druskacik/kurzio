@@ -17,7 +17,7 @@ const fetchNewMatches = async () => {
     try {
         const headers = await getHeaders();
         let sports = await Sport
-            .where('name', 'in', ['Tenis'])
+            .where('name', 'in', ['Tenis', 'Šachy'])
             .fetchAll();
         sports = sports.toJSON();
 
