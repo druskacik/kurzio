@@ -12,7 +12,7 @@ const fetchNewSports = async () => {
     try {
         const headers = await getHeaders();
 
-        const url = 'https://www.tipsport.sk/rest/offer/v3/sports?fromResults=false';
+        const url = `${process.env.PROVIDER_URL}/rest/offer/v3/sports?fromResults=false`;
         const response = await axios.get(url, {
             headers,
         });

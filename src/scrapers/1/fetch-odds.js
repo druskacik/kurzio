@@ -26,14 +26,14 @@ const fetchOdds = async () => {
             for (let oddType of sport.oddTypes) {
 
                 try {
-                    const url = 'https://m.tipsport.sk/rest/offer/v1/offer?limit=999999';
+                    const url = `${process.env.PROVIDER_URL}/rest/offer/v1/offer?limit=999999`;
                     const response = await axios.post(
                         url,
                         {
                             id: sport.provider_id,
                             results: false,
                             type: 'SUPERSPORT',
-                            url: `https://www.tipsport.sk${sport.url}?matchViewFilters=${oddType.provider_id}-${sport.provider_id}`,
+                            url: `${process.env.PROVIDER_URL}${sport.url}?matchViewFilters=${oddType.provider_id}-${sport.provider_id}`,
                             matchViewFilters: [{
                                 id: {
                                     superGroupId: null,
@@ -99,8 +99,8 @@ const fetchOdds = async () => {
                             newMatchOddTypes[match.id] = {
                                 matchName: match.name,
                                 competitionName: match.competition.name,
-                                matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
-                                competitionUrl: `https://m.tipsport.sk${match.competition.url}`,
+                                matchUrl: `${process.env.PROVIDER_URL}/kurzy/zapas${match.url}`,
+                                competitionUrl: `${process.env.PROVIDER_URL}${match.competition.url}`,
                                 users: match.users,
                                 newOddTypes: [oddTypeWithOdds],
                             }

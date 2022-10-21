@@ -21,10 +21,10 @@ const sendNewMatchesNotification = async (competitionID, newMatches) => {
         const text = Mustache.render(templateText, {
             competitionName: competition.name,
             subsport: competition.subsport,
-            competitionUrl: `https://m.tipsport.sk${competition.url}`,
+            competitionUrl: `${process.env.PROVIDER_URL}${competition.url}`,
             newMatches: newMatches.map(match => ({
                 ...match,
-                matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
+                matchUrl: `${process.env.PROVIDER_URL_MOBILE}/kurzy/zapas${match.url}`,
                 notificationCommand: `/trackmatch_${match.id}`,
             })),
         });

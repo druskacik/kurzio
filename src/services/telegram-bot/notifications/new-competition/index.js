@@ -22,7 +22,7 @@ const sendNewCompetitionNotification = async (sportID, competition) => {
             sportName: sport.name,
             competitionName: competition.name,
             subsport: competition.subsport,
-            competitionUrl: `https://m.tipsport.sk${competition.url}`,
+            competitionUrl: `${process.env.PROVIDER_URL}${competition.url}`,
             notificationCommand: `/track_${competition.id}`,
         });
 

@@ -9,7 +9,7 @@ const sendNewMatchWithQueryNotification = async (match, user, query) => {
         const templateText = await readFileAsync(__dirname + '/message.mustache');
         const text = Mustache.render(templateText, {
             matchName: match.name,
-            matchUrl: `https://m.tipsport.sk/kurzy/zapas${match.url}`,
+            matchUrl: `${process.env.PROVIDER_URL}/kurzy/zapas${match.url}`,
             competitionName: match.competitionName,
             odds: match.odds,
             notificationCommand: `/trackmatch_${match.id}`,

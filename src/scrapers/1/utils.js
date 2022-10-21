@@ -7,7 +7,7 @@ const HEADERS = require('../../data/test-headers.json');
 
 const getSessionID = async () => {
     try {
-        const response = await axios.get('https://tipsport.sk');
+        const response = await axios.get(`${process.env.PROVIDER_URL}`);
         const headers = response.headers;
         let sessionID = headers['set-cookie'][0];
         sessionID = sessionID.split(';')[0];

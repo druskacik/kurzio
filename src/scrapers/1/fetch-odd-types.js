@@ -15,14 +15,14 @@ const fetchOddTypes = async () => {
 
         for (let sport of sports) {
             try {
-                const url = 'https://m.tipsport.sk/rest/offer/v1/offer?limit=999999';
+                const url = `${process.env.PROVIDER_URL}/rest/offer/v1/offer?limit=999999`;
                 const response = await axios.post(
                     url,
                     {
                         id: sport.provider_id,
                         results: false,
                         type: 'SUPERSPORT',
-                        url: `https://www.tipsport.sk${sport.url}`,
+                        url: `${process.env.PROVIDER_URL}${sport.url}`,
                     },
                     {
                         headers,
