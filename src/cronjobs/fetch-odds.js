@@ -5,7 +5,7 @@ const fetchOdds = require('../scrapers/1/fetch-odds');
 let jobIsRunning = false;
 
 const job = new CronJob({
-    cronTime: '8/10 * * * * *',
+    cronTime: '20 * * * * *',
     onTick: async () => {
         if (!jobIsRunning) {
             jobIsRunning = true;

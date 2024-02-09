@@ -5,7 +5,7 @@ const fetchOddTypes = require('../scrapers/1/fetch-odd-types');
 let jobIsRunning = false;
 
 const job = new CronJob({
-    cronTime: '37 * * * * *',
+    cronTime: '10 * * * * *',
     onTick: async () => {
         if (!jobIsRunning) {
             jobIsRunning = true;
