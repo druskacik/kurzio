@@ -15,7 +15,7 @@ const fetchOddTypes = async () => {
 
         for (let sport of sports) {
             try {
-                const url = `${process.env.PROVIDER_URL}/rest/offer/v1/offer?limit=999999`;
+                const url = `${process.env.PROVIDER_URL}/rest/offer/v2/offer?limit=999999`;
                 const response = await axios.post(
                     url,
                     {

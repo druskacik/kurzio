@@ -23,7 +23,7 @@ const fetchNewMatches = async () => {
 
         for (let sport of sports) {
             try {
-                const url = `${process.env.PROVIDER_URL}/rest/offer/v1/offer?limit=999999`;
+                const url = `${process.env.PROVIDER_URL}/rest/offer/v2/offer?limit=999999`;
                 const response = await axios.post(
                     url,
                     {
@@ -55,8 +55,7 @@ const fetchNewMatches = async () => {
                         competitionDB = competitionDB.toJSON();
                         const competitionID = competitionDB.id;
 
-                        for (let matchObject of competition.offerMatches) {
-                            const match = matchObject.match;
+                        for (let match of competition.matches) {
                             let matchDB = await Match.where({
                                 provider_id: match.id,
                                 name: match.name,
@@ -74,7 +73,7 @@ const fetchNewMatches = async () => {
                                 const matchID = matchDB.id;
 
                                 // save odds
-                                let odds = matchObject?.oppRows?.[0]?.oppsTab || [];
+                                let odds = match?.oppRows?.[0]?.oppsTab || [];
                                 odds = odds.filter(odd => Boolean(odd));
                                 odds = odds.map(odd => ({
                                     label: odd.label,
