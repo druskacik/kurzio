@@ -6,18 +6,19 @@ const Competition = require('../../models/Competition');
 
 const telegramBot = require('../../services/telegram-bot');
 
-const getHeaders = require('./utils');
+const fetchFromNetworkTab = require('./fetch-from-network-tab');
 
 const fetchNewSports = async () => {
     try {
-        const headers = await getHeaders();
 
-        const url = `${process.env.PROVIDER_URL}/rest/offer/v4/sports?fromResults=false`;
-        const response = await axios.get(url, {
-            headers,
-        });
+        const baseUrl = 'https://www.tipsport.sk';
+        const targetJSONUrl = 'https://www.tipsport.sk/rest/offer/v5/sports?fromResults=false'
+
+        const response = await fetchFromNetworkTab(baseUrl, targetJSONUrl);
+
+        // const url = `${process.env.PROVIDER_URL}/rest/offer/v4/sports?fromResults=false`;
         
-        const categories = response.data.data.children; // these are 'Oblubene sporty' a 'Ostatne sporty'
+        const categories = response.data.children; // these are 'Oblubene sporty' a 'Ostatne sporty'
         for (let category of categories) {
 
             const sports = category.children;

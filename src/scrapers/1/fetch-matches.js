@@ -1,7 +1,3 @@
-const axios = require('axios');
-
-const getHeaders = require('./utils');
-
 const knex = require('../../../knex_connection');
 
 const Sport = require('../../models/Sport');
@@ -13,32 +9,27 @@ const Query = require('../../models/Query');
 
 const normalizeString = require('../../utils/normalize-string');
 
+const fetchFromNetworkTab = require('./fetch-from-network-tab');
+
 const fetchNewMatches = async () => {
     try {
-        const headers = await getHeaders();
         let sports = await Sport
-            .where('name', 'in', ['Tenis', 'Šachy'])
+            // .where('name', 'in', ['Tenis', 'Šachy'])
+            .where('name', 'in', ['Tenis'])
             .fetchAll();
         sports = sports.toJSON();
 
         for (let sport of sports) {
             try {
-                const url = `${process.env.PROVIDER_URL}/rest/offer/v2/offer?limit=999999`;
-                const response = await axios.post(
-                    url,
-                    {
-                        id: sport.provider_id,
-                        results: false,
-                        type: 'SUPERSPORT',
-                        url: `${process.env.PROVIDER_URL}${sport.url}`,
-                    },
-                    {
-                        headers,
-                    }
-                );
+
+                console.log(`Fetching matches for ${sport.name}`)
+        
+                const baseUrl = 'https://www.tipsport.sk/kurzy/tenis-43';
+                const targetJSONUrl = 'https://www.tipsport.sk/rest/offer/v2/offer?limit=75';
+
+                const response = await fetchFromNetworkTab(baseUrl, targetJSONUrl);
             
-                // const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitions;
-                const competitions = response.data.offerSuperSports[0].tabs[0].offerCompetitionAnnuals;
+                const competitions = response.offerSuperSports[0].tabs[0].offerCompetitionAnnuals;
                 // const activeCompetitions = [];
 
                 for (let competition of competitions) {
