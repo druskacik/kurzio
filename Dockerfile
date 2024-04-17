@@ -27,7 +27,7 @@ RUN apk add git
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # Puppeteer v13.5.0 works with Chromium 100.
-RUN yarn add puppeteer@22.4.1
+# RUN yarn add puppeteer@22.4.1
 
 # Add user so we don't need --no-sandbox.
 RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
