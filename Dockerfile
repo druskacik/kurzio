@@ -33,7 +33,7 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
 
-RUN apt-get install xvfb
+RUN apk add xvfb
 
 RUN apk add git
 
