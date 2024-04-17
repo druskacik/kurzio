@@ -5,6 +5,7 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
     try {
         browser = await puppeteer.launch({
             headless: false,
+            args: ['--no-sandbox'],
         });
 
         const response = await new Promise(async (resolve, reject) => {
