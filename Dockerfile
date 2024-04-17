@@ -17,7 +17,9 @@ RUN apk add --no-cache \
       ca-certificates \
       ttf-freefont \
       nodejs \
-      yarn
+      yarn \
+      xvfb \
+      xvfb-run
 
 RUN apk add git
 
@@ -32,10 +34,6 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /app \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
-
-RUN apk add xvfb
-
-RUN apk add git
 
 # copy the app, note .dockerignore
 COPY . /usr/src/nuxt-app/
