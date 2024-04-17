@@ -4,8 +4,7 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
     let browser;
     try {
         browser = await puppeteer.launch({
-            // headless: false,
-            headless: true,
+            headless: false,
             args: ['--no-sandbox'],
         });
 

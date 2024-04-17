@@ -33,6 +33,8 @@ RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
 
+RUN sudo apt-get install xvfb
+
 RUN apk add git
 
 # copy the app, note .dockerignore
@@ -41,4 +43,4 @@ RUN npm install --force
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["xvfb-run", "-a", "--server-args=\"-screen 0 1280x800x24 -ac -nolisten tcp -dpi 96 +extension RANDR\"", "npm", "start"]
