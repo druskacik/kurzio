@@ -16,7 +16,7 @@ RUN npm install
 COPY . /app
 EXPOSE 3000
 
-CMD xvfb-run --server-args="-screen 0 1024x768x24" npm start
+CMD xvfb-run --server-args="-screen 0 1024x768x24 -ac -nolisten tcp -dpi 96 +extension RANDR" npm start
 
 # Dockerfile
 # FROM node:16.13.2-
