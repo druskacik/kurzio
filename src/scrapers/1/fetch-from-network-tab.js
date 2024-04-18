@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const userAgents = require('user-agents');
 
 const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
     let browser;
@@ -10,6 +11,8 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
 
         const response = await new Promise(async (resolve, reject) => {
             const page = await browser.newPage();
+            
+            await page.setUserAgent(userAgents.random().toString())
             await page.setRequestInterception(true);
 
             page.on('request', (request) => {
