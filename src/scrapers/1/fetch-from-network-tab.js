@@ -25,7 +25,8 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
         const response = await new Promise(async (resolve, reject) => {
             const page = await browser.newPage();
             
-            const userAgent = new UserAgent({ platform: 'Win32' })
+            // const userAgent = new UserAgent({ platform: 'Win32' })
+            const userAgent = new UserAgent()
             await page.setUserAgent(userAgent.random().toString())
             await page.setRequestInterception(true);
 
@@ -49,7 +50,7 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
                 }
             });
 
-            await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+            await page.goto(baseUrl, { waitUntil: 'networkidle2' });
             await page.solveRecaptchas()
 
             if (!responseBody) {
