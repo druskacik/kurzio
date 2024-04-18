@@ -33,6 +33,10 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
             });
 
             await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+
+            if (!responseBody) {
+                console.log(await page.$eval('*', el => el.innerText));
+            }
             resolve(responseBody);
         });
 
