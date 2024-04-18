@@ -32,7 +32,7 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
                 }
             });
 
-            await page.goto(baseUrl, { waitUntil: 'networkidle2' });
+            await page.goto(baseUrl, { waitUntil: 'networkidle0' });
             resolve(responseBody);
         });
 
