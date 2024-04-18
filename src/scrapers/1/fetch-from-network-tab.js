@@ -1,8 +1,18 @@
+require('dotenv').config();
+
 const puppeteer = require('puppeteer-extra');
 const UserAgent = require('user-agents');
 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
+
+const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
+puppeteer.use(
+  RecaptchaPlugin({
+    provider: { id: '2captcha', token: process.env.CAPTCHA_API_KEY },
+    visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
+  })
+)
 
 const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
     let browser;
@@ -40,6 +50,7 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
             });
 
             await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+            await page.solveRecaptchas()
 
             if (!responseBody) {
                 console.log(await page.$eval('*', el => el.innerText));
