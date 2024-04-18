@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json /app
 
 RUN npm install
-RUN npx puppeteer browsers install chrome
+RUN npx puppeteer browsers install chrome@123.0.6312.122
 
 COPY . /app
 EXPOSE 3000

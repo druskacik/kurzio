@@ -1,5 +1,8 @@
-const puppeteer = require('puppeteer');
-const userAgents = require('user-agents');
+const puppeteer = require('puppeteer-extra');
+const UserAgent = require('user-agents');
+
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 
 const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
     let browser;
@@ -12,7 +15,8 @@ const fetchFromNetworkTab = async (baseUrl, targetJSONUrl) => {
         const response = await new Promise(async (resolve, reject) => {
             const page = await browser.newPage();
             
-            await page.setUserAgent(userAgents.random().toString())
+            const userAgent = new UserAgent({ platform: 'Win32' })
+            await page.setUserAgent(userAgent.random().toString())
             await page.setRequestInterception(true);
 
             page.on('request', (request) => {
